@@ -1,13 +1,16 @@
+# -*- coding: utf-8 -*-
+
+
 import psycopg2
 import random
 
 global conn
-conn = psycopg2.connect(dbname="mortfors_fv", user="ah8301", password="n1ry5adj", host="pgserver.mah.se")
+conn = psycopg2.connect(dbname="mortfors_fv", user="ai0377", password="pw6qvfi9", host="pgserver.mah.se")
 global cursor
 cursor = conn.cursor
 
 def busbooking():
-    conn = psycopg2.connect(dbname="mortfors_fv", user="ah8301", password="n1ry5adj", host="pgserver.mah.se")
+    conn = psycopg2.connect(dbname="mortfors_fv", user="ai0377", password="pw6qvfi9", host="pgserver.mah.se")
     cursor = conn.cursor
     while True:
         welcome()
@@ -18,8 +21,10 @@ def busbooking():
         elif user_choice == "2":
             book_trip()
         elif user_choice == "3":
-            search()
+            search_trips()
         elif user_choice == "4":
+            register_driver()
+        elif user_choice == "5":
             print("Thanks for choosing Mortfors!")
             break
         else:
@@ -37,25 +42,62 @@ def menu():
     print("1.Sign up")
     print("2.Book trip")
     print("3.Search for trips.")
-    print("4.Exit")
+    print("4. Register driver.")
+    print("5.Exit")
+
+
+def register_driver():
+    conn = psycopg2.connect(dbname="mortfors_fv", user="ai0377", password="pw6qvfi9", host="pgserver.mah.se")
+    cursor = conn.cursor()
+
+    personnr = input("SSN:")
+    name = input("Your name (Firstname Lastname): ")
+    adress = input("Adress: ")
+    number = input("Phonenumber: ")
+    cursor.execute("insert into Resenär values (%s, %s, %s, %s)", (personnr, name, adress, number))
+    conn.commit()
 
 def register_traveller():
 
-    conn = psycopg2.connect(dbname="mortfors_fv", user="ah8301", password="n1ry5adj", host="pgserver.mah.se")
+    conn = psycopg2.connect(dbname="mortfors_fv", user="ai0377", password="pw6qvfi9", host="pgserver.mah.se")
     cursor = conn.cursor()
-    
+
     personid = random.randint(1,100000000)
     name = input("Your name (Firstname Lastname): ")
     email = input("Email: ")
     number = input("Phonenumber: ")
-    cursor.execute("insert into Resenär values (%s, %s, %s, %s)", (personid, name, email, number))
+    cursor.execute("insert into Chaufför values (%s, %s, %s, %s)", (personid, name, email, number))
     conn.commit()
 
 def book_trip():
-	pass
+    conn = psycopg2.connect(dbname="mortfors_fv", user="ai0377", password="pw6qvfi9", host="pgserver.mah.se")
+    cursor = conn.cursor()
+
+    what_traveller = input("What is your name?")
+    the_traveller = cursor.execute("SELECT personID FROM Resenär WHERE Namn ='" + what_traveller + "'")
+    personID = cursor.fetchone()
+    p_id = int(personID[0])
+    what_trip = input("What trip do you wish to book, please choose the correct Trip ID from the Trip list!")
+    what_seat = input("What seat do you which to book?")
+    print(personID)
+    print(p_id, what_trip, what_seat)
+    cursor.execute("insert into bokning values (%s, %s, %s)", (what_trip, p_id, what_seat))
+    conn.commit()
+    
 
 def search_trips():
-    print("Current planned trips:")
-    cursor.execute("SELECT Datum, Avgång, Ankomst FROM Tur ")
+    conn = psycopg2.connect(dbname="mortfors_fv", user="ai0377", password="pw6qvfi9", host="pgserver.mah.se")
+    cursor = conn.cursor()
+    print("ID  Date  Departure  Arrival  From  To")
+    cursor.execute("SELECT ReseID, Datum, Avång, Ankomst, Från, Till FROM Tur;")
+    res = cursor.fetchall()
+    for row in res:
+        print(row)
+    conn.commit()
+
+def find_person(personID, what_traveller):
+    for p_id in personID:
+        return p_id
+
 
 busbooking()
