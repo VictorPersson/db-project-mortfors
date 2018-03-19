@@ -3,6 +3,7 @@ drop database if exists mortfors_fv;
 create database mortfors_fv;
 
 /* Tar bort DB tables */
+
 drop table if exists Resenär;
 drop table if exists Chaufför;
 drop table if exists Tur;
