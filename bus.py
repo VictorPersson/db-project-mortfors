@@ -79,13 +79,14 @@ def book_trip():
     spacer()
     what_trip = input("What trip do you wish to book, please choose the correct Trip ID from the Trip list!: ")
     what_seat = int(input("How many seats do you wish to book?: "))
-    print(personID)
-    print(p_id, what_trip, what_seat)
     cursor.execute("SELECT Platser FROM Tur WHERE reseid =" + what_trip)
     current_seats = cursor.fetchone()
-    print(current_seats[0])
-    cursor.execute("insert into bokning values (%s, %s, %s)", (what_trip, p_id, what_seat))
-    cursor.execute("UPDATE Tur SET platser=" + (int(current_seats[0]) - int(what_seat)) + " where reseid =" + what_trip)
+    cursor.execute("Select sum(bokadplats) from bokning where reseid =" + what_trip)
+    booked_seats = cursor.fetchone()
+    if what_seat > booked_seats[0]:
+        print("There arent that many free spots on this trip!")
+    else: 
+        cursor.execute("insert into bokning values (%s, %s, %s)", (what_trip, p_id, what_seat))
     conn.commit()
 
 
