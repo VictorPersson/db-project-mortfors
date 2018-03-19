@@ -54,7 +54,7 @@ def register_driver():
     name = input("Your name (Firstname Lastname): ")
     adress = input("Adress: ")
     number = input("Phonenumber: ")
-    cursor.execute("insert into Resenär values (%s, %s, %s, %s)", (personnr, name, adress, number))
+    cursor.execute("insert into Chaufför values (%s, %s, %s, %s)", (personnr, name, adress, number))
     conn.commit()
 
 def register_traveller():
@@ -66,7 +66,7 @@ def register_traveller():
     name = input("Your name (Firstname Lastname): ")
     email = input("Email: ")
     number = input("Phonenumber: ")
-    cursor.execute("insert into Chaufför values (%s, %s, %s, %s)", (personid, name, email, number))
+    cursor.execute("insert into Resenär values (%s, %s, %s, %s)", (personid, name, email, number))
     conn.commit()
 
 def book_trip():
@@ -76,12 +76,16 @@ def book_trip():
     what_traveller = input("What is your name?")
     the_traveller = cursor.execute("SELECT personID FROM Resenär WHERE Namn ='" + what_traveller + "'")
     personID = cursor.fetchone()
-    p_id = int(personID[0])
+    p_id = personID[0]
     what_trip = input("What trip do you wish to book, please choose the correct Trip ID from the Trip list!")
-    what_seat = input("What seat do you which to book?")
+    what_seat = int(input("How many seats do you wish to book?"))
     print(personID)
     print(p_id, what_trip, what_seat)
+    cursor.execute("SELECT Platser FROM Tur WHERE reseid =" + what_trip)
+    current_seats = cursor.fetchone()
+    print(current_seats[0])
     cursor.execute("insert into bokning values (%s, %s, %s)", (what_trip, p_id, what_seat))
+    cursor.execute("UPDATE Tur SET platser=" + (int(current_seats[0]) - int(what_seat)) + " where reseid =" + what_trip)
     conn.commit()
     
 
@@ -94,10 +98,5 @@ def search_trips():
     for row in res:
         print(row)
     conn.commit()
-
-def find_person(personID, what_traveller):
-    for p_id in personID:
-        return p_id
-
 
 busbooking()
