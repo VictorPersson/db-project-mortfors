@@ -93,12 +93,28 @@ def book_trip():
 def search_trips():
     conn = psycopg2.connect(dbname="mortfors_fv", user="ai0377", password="pw6qvfi9", host="pgserver.mah.se")
     cursor = conn.cursor()
-    print("{:<10} {:<10} {:<10} {:<10} {:<10} {:<10}".format("Trip ID", "Date", "Departure", "Arrival", "From", "To"))
-    cursor.execute("SELECT ReseID, Datum, Avång, Ankomst, Från, Till FROM Tur;")
-    trips = cursor.fetchall()
-    for trip in trips:
-        print(trip)
-    conn.commit()
+
+    print("≡"*45)
+    print("Menu")
+    print("≡"*45)
+    print("1.List all.")
+    print("2.Search for trips")
+    user_choice = input("Your choice, please enter 1 or 2")
+    if user_choice == "1":
+        print("{:<10} {:<10} {:<10} {:<10} {:<10} {:<10}".format("Trip ID", "Date", "Departure", "Arrival", "From", "To"))
+        cursor.execute("SELECT ReseID, Datum, Avång, Ankomst, Från, Till FROM Tur;")
+        trips = cursor.fetchall()
+        for trip in trips:
+            print(trip)
+        conn.commit()
+    elif user_choice =="2":
+        what_trip = input("Where do you want to go?")
+        cursor.execute("select * from Tur where Till = ""'" + what_trip + "'")
+        selected_trip = cursor.fetchall()
+        print("{:<10} {:<10} {:<10} {:<10} {:<10} {:<10}".format("Trip ID", "Date", "Departure", "Arrival", "From", "To"))
+        print(selected_trip[0])
+
+          
 
 
 def spacer():

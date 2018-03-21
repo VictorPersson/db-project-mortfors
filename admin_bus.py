@@ -30,7 +30,7 @@ def admin_panel():
 
 def welcome():
     print("≡"*45)
-    print("Welcome to Admin panel, powerd by Mortfors!")
+    print("Welcome to Admin panel, powered by Mortfors!")
 
 
 def menu():
