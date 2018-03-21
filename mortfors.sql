@@ -21,6 +21,7 @@ create table Resenär
 
 create table Chaufför
   (Personnummer   varchar(12),
+  c_id            int,
   Namn            varchar(30),
   Adress          varchar(30),
   Hemtelefon      int,
@@ -34,7 +35,7 @@ create table Platser
 
 create table Tur
   (ReseID       int,
-  Personnummer  varchar(12),
+  c_id          int,
   Datum         int,
   Avång         int,
   Ankomst       int,
@@ -43,7 +44,7 @@ create table Tur
   Från          varchar(30),
   Till          varchar(30),
   primary key(ReseID),
-  foreign key(Personnummer) references Chaufför(Personnummer));
+  foreign key(c_id) references Chaufför(c_id));
 
 create table Bokning
   (ReseID     int,

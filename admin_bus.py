@@ -49,10 +49,11 @@ def register_driver():
     cursor = conn.cursor()
 
     ssn = input("SSN: ")
+    c_id = input("Give this driver an unique ID")
     name = input("Your name (Firstname Lastname): ")
     adress = input("Adress: ")
     number = input("Phonenumber: ")
-    cursor.execute("insert into Chaufför values (%s, %s, %s, %s)", (ssn, name, adress, number))
+    cursor.execute("insert into Chaufför values (%s, %s, %s, %s, %s)", (ssn, c_id, name, adress, number))
     conn.commit()
 
 
@@ -61,15 +62,15 @@ def add_route():
     cursor = conn.cursor()
 
     tour_id = randint(1,100000000)
-    ssn = input("Driver SSN (Press enter to skip): ")
+    c_id = "null"
     date = input("Trip date: ")
     departure = input("Departure time: ")
     arrival = input("Arrival time: ")
     price = input("Price: ")
     seats = input("Max seats: ")
     start = input("Start location: ")
-    destenation = input("End destenation: ")
-    cursor.execute("insert into Tur values (%s, %s, %s, %s, %s, %s, %s, %s, %s)", (tour_id, ssn, date, departure, arrival, price, seats, start, destenation))
+    destination = input("End destination: ")
+    cursor.execute("insert into Tur values (%s, %s, %s, %s, %s, %s, %s, %s, %s)", (tour_id, c_id, date, departure, arrival, price, seats, start, destination))
     conn.commit()
 
 
