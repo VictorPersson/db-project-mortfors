@@ -40,5 +40,4 @@
 <br>
 <p align="center">
   Don't forget to Star our repository/ <br>
-  <strong>Politweet Enterprises™</strong>
 </p>
