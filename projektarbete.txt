@@ -1,0 +1,11 @@
+Vi har använt oss av Python3.6 och psycopg2 biblioteket för att bygga får applikation. Databasen är en postgresSQL databas.
+
+Vår applikation är uppdelad i två interfaces, ett för admins och ett för kunder.
+
+I kundapplikationen kan man skapa en ny person, söka efter resor och boka in sig i resor.
+
+  Register traveller funktionen fungerar genom att användaren får slå in sitt namn, epostadress och telefonnummer och sedan skapas ett personID automatiskt för personen.
+  book_trip funktionen fungerar genom att man ska välja vilken person man är, sedan väljer man en resa och hur många platser man vill boka. Ifall personen och platserna finns så kommer det att läggas in i databasen.
+  search_trip funktionen listar alla resor man kan välja.
+
+I adminapplikationen kan man skapa en ny chaufför, skapa en ny resa och lägga in chaufförer i resor.
