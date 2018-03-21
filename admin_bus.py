@@ -13,16 +13,18 @@ def admin_panel():
     while True:
         welcome()
         menu()
-        user_choice = input("Your choice, enter 1, 2 or 3: ")
+        user_choice = input("Your choice, enter 1, 2, 3 or 4: ")
         if user_choice == "1":
             register_driver()
         elif user_choice == "2":
             add_route()
         elif user_choice == "3":
+            add_driver_later()
+        elif user_choice == "4":
             print("Exiting Mortfors Admin panel")
             break
         else:
-            print("Please choose 1, 2, or 3!")
+            print("Please choose 1, 2, 3 or 4!")
 
 def welcome():
     print("≡"*45)
@@ -32,9 +34,10 @@ def menu():
     print("≡"*45)
     print("Menu")
     print("≡"*45)
-    print("1.Register driver.")
+    print("1.Register a new driver.")
     print("2.Add bus route.")
-    print("3.Exit")
+    print("3.Add/change bus driver.")
+    print("4.Exit")
     spacer()
 
 
@@ -42,11 +45,11 @@ def register_driver():
     conn = psycopg2.connect(dbname="mortfors_fv", user="ai0377", password="pw6qvfi9", host="pgserver.mah.se")
     cursor = conn.cursor()
 
-    personnr = input("SSN: ")
+    ssn = input("SSN: ")
     name = input("Your name (Firstname Lastname): ")
     adress = input("Adress: ")
     number = input("Phonenumber: ")
-    cursor.execute("insert into Chaufför values (%s, %s, %s, %s)", (personnr, name, adress, number))
+    cursor.execute("insert into Chaufför values (%s, %s, %s, %s)", (ssn, name, adress, number))
     conn.commit()
 
 def add_route():
@@ -64,6 +67,35 @@ def add_route():
     destenation = input("End destenation: ")
     cursor.execute("insert into Tur values (%s, %s, %s, %s, %s, %s, %s, %s, %s)", (tour_id, ssn, date, departure, arrival, price, seats, start, destenation))
     conn.commit()
+
+def add_driver_later():
+    conn = psycopg2.connect(dbname="mortfors_fv", user="ai0377", password="pw6qvfi9", host="pgserver.mah.se")
+    cursor = conn.cursor()
+
+    cursor.execute("SELECT * FROM Tur;")
+    all_trips = cursor.fetchall()
+    for trip in all_trips:
+        print(trip)
+
+    changed_route = input("Which route (routeID) would you like to update the driver for: ")
+    route_list = []
+    route_list.append(changed_route[)
+    for i in range(len(route_list)):
+        route_list[i] = int(route_list[i])
+
+    cursor.execute("SELECT ReseID FROM Tur where ReseID =" + changed_route)
+    routeID = cursor.fetchone()
+    routeID_list = []
+    routeID_list.append(routeID[0])
+
+    ssn = input("Enter drivers SSN: ")
+    print(route_list, routeID_list)
+    if routeID_list == route_list:
+        cursor.execute("update Tur set Personnummer =" + ssn + " where reseID =" + changed_route)
+        conn.commit()
+    else:
+        print("That is not a valid routeID!")
+        conn.commit()
 
 
 
