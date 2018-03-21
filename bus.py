@@ -74,7 +74,7 @@ def book_trip():
     total_seats = cursor.fetchone()
     available_seats = total_seats[0] - booked_seats[0]
     try:
-        if what_seat > available_seats:
+        if what_seat < available_seats:
             print("There arent that many free spots on this trip!")
         else: 
             cursor.execute("insert into bokning values (%s, %s, %s)", (what_trip, p_id, what_seat))
