@@ -1,11 +1,10 @@
 # Bus Database #
 #### How to use and install and the Bus databse!<br>
-
 <strong>The database is built in postgreSQL and the program is written using Python3.6</strong>
 
 ### Windows ###
 -------------
-1. Download and tnstall [Python3.6](https://www.python.org/downloads/)
+1. Download and install [Python3.6](https://www.python.org/downloads/)
 2. During the install process make sure you tick the option to get "PIP" as well.
 3. Once python3 with pip is installed, open the cmd as an administrator and type ```pip install psycopg2```.
 4. Install postgreSQL by visting their website and following the instructions!
