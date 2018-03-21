@@ -1,11 +1,12 @@
-
 import psycopg2
 from random import randint
 
 global conn
 conn = psycopg2.connect(dbname="mortfors_fv", user="ai0377", password="pw6qvfi9", host="pgserver.mah.se")
+
 global cursor
 cursor = conn.cursor
+
 
 def admin_panel():
     conn = psycopg2.connect(dbname="mortfors_fv", user="ai0377", password="pw6qvfi9", host="pgserver.mah.se")
@@ -26,9 +27,11 @@ def admin_panel():
         else:
             print("Please choose 1, 2, 3 or 4!")
 
+
 def welcome():
     print("≡"*45)
     print("Welcome to Admin panel, powerd by Mortfors!")
+
 
 def menu():
     print("≡"*45)
@@ -52,12 +55,13 @@ def register_driver():
     cursor.execute("insert into Chaufför values (%s, %s, %s, %s)", (ssn, name, adress, number))
     conn.commit()
 
+
 def add_route():
     conn = psycopg2.connect(dbname="mortfors_fv", user="ai0377", password="pw6qvfi9", host="pgserver.mah.se")
     cursor = conn.cursor()
 
     tour_id = randint(1,100000000)
-    ssn = input("Driver SSN: ")
+    ssn = input("Driver SSN (Press enter to skip): ")
     date = input("Trip date: ")
     departure = input("Departure time: ")
     arrival = input("Arrival time: ")
@@ -67,6 +71,7 @@ def add_route():
     destenation = input("End destenation: ")
     cursor.execute("insert into Tur values (%s, %s, %s, %s, %s, %s, %s, %s, %s)", (tour_id, ssn, date, departure, arrival, price, seats, start, destenation))
     conn.commit()
+
 
 def add_driver_later():
     conn = psycopg2.connect(dbname="mortfors_fv", user="ai0377", password="pw6qvfi9", host="pgserver.mah.se")
@@ -79,7 +84,7 @@ def add_driver_later():
 
     changed_route = input("Which route (routeID) would you like to update the driver for: ")
     route_list = []
-    route_list.append(changed_route[)
+    route_list.append(changed_route)
     for i in range(len(route_list)):
         route_list[i] = int(route_list[i])
 
@@ -98,9 +103,8 @@ def add_driver_later():
         conn.commit()
 
 
-
-
 def spacer():
     print("═"*45)
+
 
 admin_panel()

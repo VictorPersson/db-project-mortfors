@@ -1,13 +1,14 @@
 # -*- coding: utf-8 -*-
 
-
 import psycopg2
 import random
 
 global conn
 conn = psycopg2.connect(dbname="mortfors_fv", user="ai0377", password="pw6qvfi9", host="pgserver.mah.se")
+
 global cursor
 cursor = conn.cursor
+
 
 def busbooking():
     conn = psycopg2.connect(dbname="mortfors_fv", user="ai0377", password="pw6qvfi9", host="pgserver.mah.se")
@@ -28,9 +29,11 @@ def busbooking():
         else:
             print("Please choose 1, 2, 3, 4!")
 
+
 def welcome():
     print("≡"*45)
     print("Welcome to the booking system used by Mortfors!")
+
 
 def menu():
     print("≡"*45)
@@ -41,7 +44,8 @@ def menu():
     print("3.Search for trips.")
     print("4.Exit")
     spacer()
-    
+
+
 def register_traveller():
 
     conn = psycopg2.connect(dbname="mortfors_fv", user="ai0377", password="pw6qvfi9", host="pgserver.mah.se")
@@ -53,6 +57,7 @@ def register_traveller():
     number = input("Phonenumber: ")
     cursor.execute("insert into Resenär values (%s, %s, %s, %s)", (personid, name, email, number))
     conn.commit()
+
 
 def book_trip():
     conn = psycopg2.connect(dbname="mortfors_fv", user="ai0377", password="pw6qvfi9", host="pgserver.mah.se")
@@ -73,11 +78,10 @@ def book_trip():
     cursor.execute("Select platser from tur where reseid =" + what_trip)
     total_seats = cursor.fetchone()
     available_seats = total_seats[0] - booked_seats[0]
-    seat_booking = available_seats - what_seat
     try:
         if what_seat < available_seats:
             print("There arent that many free spots on this trip!")
-        else: 
+        else:
             cursor.execute("insert into bokning values (%s, %s, %s)", (what_trip, p_id, what_seat))
             conn.commit()
     except:
@@ -96,7 +100,9 @@ def search_trips():
         print(trip)
     conn.commit()
 
+
 def spacer():
     print("═"*45)
+
 
 busbooking()
