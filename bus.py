@@ -41,19 +41,7 @@ def menu():
     print("3.Search for trips.")
     print("4.Exit")
     spacer()
-
-
-def register_driver():
-    conn = psycopg2.connect(dbname="mortfors_fv", user="ai0377", password="pw6qvfi9", host="pgserver.mah.se")
-    cursor = conn.cursor()
-
-    personnr = input("SSN:")
-    name = input("Your name (Firstname Lastname): ")
-    adress = input("Adress: ")
-    number = input("Phonenumber: ")
-    cursor.execute("insert into Chaufför values (%s, %s, %s, %s)", (personnr, name, adress, number))
-    conn.commit()
-
+    
 def register_traveller():
 
     conn = psycopg2.connect(dbname="mortfors_fv", user="ai0377", password="pw6qvfi9", host="pgserver.mah.se")
@@ -69,7 +57,6 @@ def register_traveller():
 def book_trip():
     conn = psycopg2.connect(dbname="mortfors_fv", user="ai0377", password="pw6qvfi9", host="pgserver.mah.se")
     cursor = conn.cursor()
-
     what_traveller = input("What is your name?: ")
     the_traveller = cursor.execute("SELECT personID FROM Resenär WHERE Namn ='" + what_traveller + "'")
     personID = cursor.fetchone()
@@ -83,11 +70,19 @@ def book_trip():
     current_seats = cursor.fetchone()
     cursor.execute("Select sum(bokadplats) from bokning where reseid =" + what_trip)
     booked_seats = cursor.fetchone()
-    if what_seat > booked_seats[0]:
-        print("There arent that many free spots on this trip!")
-    else: 
-        cursor.execute("insert into bokning values (%s, %s, %s)", (what_trip, p_id, what_seat))
-    conn.commit()
+    cursor.execute("Select platser from tur where reseid =" + what_trip)
+    total_seats = cursor.fetchone()
+    available_seats = total_seats[0] - booked_seats[0]
+    try:
+        if what_seat > available_seats:
+            print("There arent that many free spots on this trip!")
+        else: 
+            cursor.execute("insert into bokning values (%s, %s, %s)", (what_trip, p_id, what_seat))
+            conn.commit()
+    except:
+        spacer()
+        print("This person does not exist or is already booked on this trip!")
+        spacer()
 
 
 def search_trips():
@@ -95,9 +90,9 @@ def search_trips():
     cursor = conn.cursor()
     print("{:<10} {:<10} {:<10} {:<10} {:<10} {:<10}".format("Trip ID", "Date", "Departure", "Arrival", "From", "To"))
     cursor.execute("SELECT ReseID, Datum, Avång, Ankomst, Från, Till FROM Tur;")
-    res = cursor.fetchall()
-    for row in res:
-        print(row)
+    trips = cursor.fetchall()
+    for trip in trips:
+        print(trip)
     conn.commit()
 
 def spacer():
