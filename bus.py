@@ -73,6 +73,7 @@ def book_trip():
     cursor.execute("Select platser from tur where reseid =" + what_trip)
     total_seats = cursor.fetchone()
     available_seats = total_seats[0] - booked_seats[0]
+    seat_booking = available_seats - what_seat
     try:
         if what_seat < available_seats:
             print("There arent that many free spots on this trip!")
