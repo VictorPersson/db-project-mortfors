@@ -95,7 +95,7 @@ def add_driver_later():
     routeID_list = []
     routeID_list.append(routeID[0])
 
-    c_id = input("Enter drivers SSN: ")
+    c_id = input("Enter drivers-ID (C_ID): ")
     if routeID_list == route_list:
         cursor.execute("update Tur set Personnummer =" + c_id + " where reseID =" + changed_route)
         conn.commit()
