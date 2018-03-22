@@ -63,7 +63,7 @@ def add_route():
     cursor = conn.cursor()
 
     tour_id = randint(1,100000000)
-    c_id = "null"
+    ssn = None
     date = input("Trip date: ")
     departure = input("Departure time: ")
     arrival = input("Arrival time: ")
@@ -71,7 +71,7 @@ def add_route():
     seats = input("Max seats: ")
     start = input("Start location: ")
     destination = input("End destination: ")
-    cursor.execute("insert into Tur values (%s, %s, %s, %s, %s, %s, %s, %s, %s)", (tour_id, c_id, date, departure, arrival, price, seats, start, destination))
+    cursor.execute("insert into Tur values (%s, %s, %s, %s, %s, %s, %s, %s, %s)", (tour_id, ssn, date, departure, arrival, price, seats, start, destination))
     conn.commit()
 
 
@@ -97,7 +97,7 @@ def add_driver_later():
 
     c_id = input("Enter drivers-ID (C_ID): ")
     if routeID_list == route_list:
-        cursor.execute("update Tur set Personnummer =" + c_id + " where reseID =" + changed_route)
+        cursor.execute("update Tur set c_id =" + c_id + " where reseID =" + changed_route)
         conn.commit()
     else:
         print("That is not a valid routeID or driver!")
