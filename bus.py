@@ -100,6 +100,7 @@ def search_trips():
     print("1.List all.")
     print("2.Search for trips")
     user_choice = input("Your choice, please enter 1 or 2")
+
     if user_choice == "1":
         print("{:<10} {:<10} {:<10} {:<10} {:<10} {:<10}".format("Trip ID", "Date", "Departure", "Arrival", "From", "To"))
         cursor.execute("SELECT ReseID, Datum, Avång, Ankomst, Från, Till FROM Tur;")
@@ -113,8 +114,6 @@ def search_trips():
         selected_trip = cursor.fetchall()
         print("{:<10} {:<10} {:<10} {:<10} {:<10} {:<10}".format("Trip ID", "Date", "Departure", "Arrival", "From", "To"))
         print(selected_trip[0])
-
-          
 
 
 def spacer():

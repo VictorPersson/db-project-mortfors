@@ -25,7 +25,7 @@ create table Chaufför
   Namn            varchar(30),
   Adress          varchar(30),
   Hemtelefon      int,
-  primary key(Personnummer));
+  primary key(c_id));
 
 create table Platser
   (Land       varchar(30),

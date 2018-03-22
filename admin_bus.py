@@ -33,6 +33,7 @@ def welcome():
     print("Welcome to Admin panel, powered by Mortfors!")
 
 
+
 def menu():
     print("≡"*45)
     print("Menu")
@@ -94,13 +95,12 @@ def add_driver_later():
     routeID_list = []
     routeID_list.append(routeID[0])
 
-    ssn = input("Enter drivers SSN: ")
-    print(route_list, routeID_list)
+    c_id = input("Enter drivers SSN: ")
     if routeID_list == route_list:
-        cursor.execute("update Tur set Personnummer =" + ssn + " where reseID =" + changed_route)
+        cursor.execute("update Tur set Personnummer =" + c_id + " where reseID =" + changed_route)
         conn.commit()
     else:
-        print("That is not a valid routeID!")
+        print("That is not a valid routeID or driver!")
         conn.commit()
 
 
